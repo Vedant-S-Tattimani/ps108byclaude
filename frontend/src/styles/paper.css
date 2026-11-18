@@ -1,0 +1,98 @@
+/* ---------- paper primitives: card, pin, fold, tape, clip, sticker, stamp ---------- */
+.paper {
+  position: relative;
+  background: var(--card);
+  border-radius: var(--r-lg);
+  box-shadow: var(--stack-shadow), var(--shadow);
+  transition: transform 0.45s var(--spring), box-shadow 0.35s var(--ease);
+}
+.paper.tilt-l { transform: rotate(-1.6deg); }
+.paper.tilt-r { transform: rotate(1.4deg); }
+.paper.hoverable:hover, .paper.tilt-l:hover, .paper.tilt-r:hover { transform: rotate(0deg) translateY(-3px); box-shadow: var(--stack-shadow), var(--shadow-lift); }
+.pad { padding: 22px; }
+.pad-lg { padding: clamp(22px, 3vw, 34px); }
+
+.pin { position: absolute; width: 26px; height: 30px; top: -12px; left: 18px; z-index: 3; pointer-events: none; filter: drop-shadow(1px 3px 2px rgba(0, 0, 0, 0.25)); transition: transform 0.4s var(--spring); }
+.pin.right { left: auto; right: 22px; }
+.pin.center { left: calc(50% - 13px); }
+.paper:hover .pin { transform: translateY(-2px) rotate(-8deg); }
+
+.fold { position: absolute; top: 0; right: 0; width: 46px; height: 46px; border-top-right-radius: var(--r-lg); overflow: hidden; pointer-events: none; }
+.fold::before { content: ""; position: absolute; inset: 0; background: linear-gradient(225deg, var(--ink) 50%, var(--lime) 50%); clip-path: polygon(0 0, 100% 0, 100% 100%); }
+.fold.saffron::before { background: linear-gradient(225deg, var(--navy) 50%, var(--saffron) 50%); }
+
+.tape { position: absolute; top: -12px; left: 50%; width: 96px; height: 26px; transform: translateX(-50%) rotate(-3deg); background: rgba(207, 232, 58, 0.55); border-left: 2px dashed rgba(255, 255, 255, 0.6); border-right: 2px dashed rgba(255, 255, 255, 0.6); pointer-events: none; }
+.clip { position: absolute; top: -22px; right: 64px; width: 20px; height: 54px; pointer-events: none; transform: rotate(14deg); }
+
+/* sticker label (section tags) */
+.sticker {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--card); color: var(--ink);
+  font: 700 12.5px/1 var(--font-body);
+  padding: 7px 12px 7px 7px; border-radius: 7px;
+  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.35);
+  transform: rotate(-6deg);
+  position: relative;
+}
+.sticker::after { content: ""; position: absolute; right: -5px; top: -5px; width: 10px; height: 10px; border-radius: 3px; background: var(--saffron); transform: rotate(18deg); }
+.sticker .ico { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--info); color: #fff; }
+.sticker.lime::after { background: var(--lime); }
+
+/* rubber stamp */
+.stamp {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 800 12px/1 var(--font-display); letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--stamp-red); border: 2.5px solid currentColor; border-radius: 6px;
+  padding: 6px 10px; transform: rotate(-8deg);
+  mix-blend-mode: multiply; opacity: 0.88;
+  background-image: radial-gradient(circle at 30% 40%, transparent 0 1px, rgba(255, 255, 255, 0.5) 1.4px, transparent 2px);
+  background-size: 7px 7px;
+}
+.stamp.green { color: var(--stamp-green); }
+.stamp.navy { color: var(--navy); }
+.stamp.big { font-size: 15px; padding: 9px 14px; border-width: 3px; }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 46px; padding: 11px 18px; border-radius: 12px; border: 0;
+  font-weight: 700; cursor: pointer; position: relative;
+  transition: transform 0.35s var(--spring), box-shadow 0.25s var(--ease), background 0.2s;
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-ink { background: var(--ink); color: #fff; box-shadow: 0 4px 0 0 #000, 0 10px 20px -10px rgba(0, 0, 0, 0.5); }
+.btn-ink:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 6px 0 0 #000, 0 16px 26px -12px rgba(0, 0, 0, 0.5); }
+.btn-ink:not(:disabled):active { transform: translateY(3px); box-shadow: 0 1px 0 0 #000; }
+.btn-paper { background: var(--card); color: var(--ink); box-shadow: 0 3px 0 0 var(--line), 0 10px 18px -12px rgba(0, 0, 0, 0.35); }
+.btn-paper:not(:disabled):hover { transform: translateY(-2px) rotate(-1deg); }
+.btn-paper:not(:disabled):active { transform: translateY(2px); box-shadow: 0 1px 0 0 var(--line); }
+.btn-paper.recording { color: var(--bad); box-shadow: 0 0 0 2px var(--bad); }
+.btn-sticker { background: var(--card); color: var(--ink); transform: rotate(-4deg); box-shadow: 0 12px 22px -10px rgba(0, 0, 0, 0.35); padding: 14px 22px; font-size: 16px; }
+.btn-sticker:hover { transform: rotate(0deg) translateY(-3px) scale(1.03); }
+.btn-sticker:active { transform: rotate(0) scale(0.97); }
+.btn-sticker .pin { top: -14px; right: -6px; left: auto; }
+.btn-block { width: 100%; }
+.kbd { font: 500 11px var(--font-mono); opacity: 0.6; }
+
+.chip {
+  border: 0; background: var(--card); border-radius: 999px; padding: 8px 13px;
+  font-size: 13px; font-weight: 600; cursor: pointer; color: var(--ink-2);
+  box-shadow: 0 2px 0 var(--line);
+  transition: transform 0.3s var(--spring), background 0.2s, color 0.2s;
+}
+.chip:hover { transform: translateY(-2px) rotate(-1.5deg); background: var(--lime); color: var(--ink); }
+.chip:active { transform: scale(0.96); }
+
+.tag { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 700; background: var(--paper); color: var(--ink-2); }
+.tag.accent { background: var(--saffron-soft); color: #8a4300; }
+.tag.info { background: var(--info-soft); color: var(--info); }
+.tag.ok { background: var(--ok-soft); color: var(--ok); }
+.tag.bad { background: var(--bad-soft); color: var(--bad); }
+.tag.warn { background: var(--warn-soft); color: var(--warn); }
+
+.input, select.input {
+  border: 2px solid var(--line); border-radius: 12px; background: var(--card);
+  padding: 10px 12px; min-height: 46px; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 4px var(--lime); }
+.error-box { background: var(--bad-soft); color: var(--bad); padding: 12px 16px; border-radius: 12px; font-weight: 600; font-size: 14px; border: 2px dashed currentColor; }

@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>SpecSetu — Product Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,700..900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  @page { size: A4; margin: 0; }
+  :root { --paper:#f4f1ea; --paper2:#ebe6db; --ink:#171717; --ink2:#3b3b3b; --muted:#6b6b6b; --line:#e2ddd2; --grid:#d9e6f1;
+          --saffron:#ff8a1f; --saffron-soft:#ffe6cf; --lime:#cfe83a; --pin:#e5383b; --green:#1c7c4a; --green-soft:#dcf4e1;
+          --blue:#1d5fa8; --blue-soft:#dce9f8; --red:#c2262b; --red-soft:#fde4df; --yellow:#f3e889; }
+  * { box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body { margin:0; font:10.4pt/1.5 "Plus Jakarta Sans", system-ui, sans-serif; color:var(--ink); background:#fff; }
+  .page { width:210mm; height:297mm; padding:17mm 16mm 15mm; position:relative; overflow:hidden; page-break-after:always;
+          background-color:var(--paper);
+          background-image:linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+          background-size:15mm 15mm; }
+  .page:last-child { page-break-after:auto; }
+  .foot { position:absolute; left:16mm; right:16mm; bottom:8mm; display:flex; justify-content:space-between; font-size:8pt; color:var(--muted); font-weight:600; }
+  h1, h2, h3 { font-family:"Archivo", sans-serif; margin:0; }
+  h2.title { font:900 25pt/0.98 "Archivo"; font-stretch:112%; text-transform:uppercase; letter-spacing:-0.03em; margin:6px 0 12px; }
+  h3 { font:800 12.5pt/1.2 "Archivo"; margin:0 0 6px; }
+  p { margin:0 0 8px; }
+  .lede { font-size:11.5pt; color:var(--ink2); font-weight:500; }
+  .hand { font-family:"Caveat", cursive; font-size:17pt; color:var(--blue); line-height:1; }
+  .mono { font-family:"JetBrains Mono", monospace; font-size:0.92em; }
+  .muted { color:var(--muted); }
+  .sticker { display:inline-flex; align-items:center; gap:6px; background:#fff; padding:5px 10px 5px 6px; border-radius:6px; font-weight:800; font-size:8.6pt;
+             box-shadow:0 5px 12px -6px rgba(0,0,0,.35); transform:rotate(-4deg); position:relative; }
+  .sticker i { width:15px; height:15px; border-radius:50%; background:var(--blue); display:inline-block; }
+  .sticker::after { content:""; position:absolute; right:-4px; top:-4px; width:8px; height:8px; border-radius:2px; background:var(--saffron); transform:rotate(18deg); }
+  .card { background:#fff; border-radius:14px; padding:12px 14px; position:relative; box-shadow:7px 7px 0 -1px var(--paper2), 7px 7px 0 0 rgba(0,0,0,.06), 0 8px 18px -12px rgba(0,0,0,.25); }
+  .card.tl { transform:rotate(-0.8deg); } .card.tr { transform:rotate(0.7deg); }
+  .pin { position:absolute; top:-7px; left:14px; width:13px; height:13px; border-radius:50%; background:var(--pin); box-shadow:inset -2px -2px 0 rgba(0,0,0,.18), 1px 2px 2px rgba(0,0,0,.25); }
+  .pin.b { background:#2f6fca; } .pin.g { background:var(--green); } .pin.o { background:var(--saffron); }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:11px; }
+  .stamp { display:inline-block; font:800 8pt/1 "Archivo"; letter-spacing:.12em; text-transform:uppercase; color:var(--red); border:2px solid currentColor; border-radius:5px; padding:4px 7px; transform:rotate(-7deg); }
+  .stamp.g { color:var(--green); } .stamp.n { color:#12355b; }
+  .tag { display:inline-block; padding:2px 7px; border-radius:99px; font-size:8pt; font-weight:700; background:var(--paper); }
+  .tag.ok { background:var(--green-soft); color:var(--green); } .tag.new { background:var(--saffron-soft); color:#8a4300; }
+  ul.tick { list-style:none; padding:0; margin:0; display:grid; gap:4px; }
+  ul.tick li { padding-left:17px; position:relative; }
+  ul.tick li::before { content:"✓"; position:absolute; left:0; color:var(--green); font-weight:800; }
+  table { width:100%; border-collapse:separate; border-spacing:0; font-size:8.5pt; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 8px 18px -12px rgba(0,0,0,.25); }
+  th, td { padding:5.5px 7px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line); }
+  th { background:var(--ink); color:#fff; font-weight:700; font-size:8pt; }
+  tr:last-child td { border-bottom:0; }
+  td.c, th.c { text-align:center; }
+  .y { color:var(--green); font-weight:800; font-size:13pt; line-height:1; } .p { color:#a35d00; font-weight:800; font-size:13pt; line-height:1; } .n { color:#b9b2a5; font-weight:800; font-size:13pt; line-height:1; }
+  table.tight th, table.tight td { padding:4px 7px; }
+  .crop { width:100%; height:var(--h,62mm); object-fit:cover; object-position:var(--pos,center top); border-radius:10px; display:block; border:3px solid #fff; box-shadow:0 10px 24px -14px rgba(0,0,0,.45); }
+  tr.us td { background:#fffbe0; font-weight:600; }
+  .shot { width:100%; border-radius:10px; display:block; box-shadow:0 10px 24px -14px rgba(0,0,0,.45); border:3px solid #fff; }
+  .polaroid { background:#fff; padding:7px 7px 9px; border-radius:12px; box-shadow:7px 7px 0 -1px var(--paper2), 0 10px 22px -14px rgba(0,0,0,.4); }
+  .polaroid figcaption { font-size:8pt; font-weight:700; margin-top:6px; padding:0 3px; }
+  figure { margin:0; }
+  .num { font:900 26pt/1 "Archivo"; letter-spacing:-0.03em; }
+  .flow { display:flex; gap:6px; align-items:stretch; margin:8px 0 12px; }
+  .flow div { flex:1; border-radius:10px; padding:8px 9px; font-size:8.4pt; box-shadow:4px 4px 0 -1px var(--paper2); }
+  .flow b { display:block; font:800 9.5pt "Archivo"; margin-bottom:2px; }
+  .bar { border-radius:10px; padding:7px 11px; margin-bottom:6px; display:grid; grid-template-columns:22px 1fr; gap:8px; box-shadow:5px 5px 0 -1px var(--paper2); }
+  .bar .k { font:900 9pt "JetBrains Mono"; opacity:.5; padding-top:1px; }
+  .cover { display:flex; flex-direction:column; justify-content:center; }
+  .cover h1 { font:900 66pt/0.9 "Archivo"; font-stretch:115%; text-transform:uppercase; letter-spacing:-0.04em; }
+  .hl { background:linear-gradient(transparent 60%, rgba(207,232,58,.9) 60%, rgba(207,232,58,.9) 88%, transparent 88%); }
+  .legend { font-size:8pt; color:var(--muted); margin-top:6px; }
+</style>
+</head>
+<body>
+
+<!-- 1 · COVER -->
+<section class="page cover">
+  <div style="position:absolute; top:20mm; right:18mm; display:grid; gap:10px; justify-items:end;">
+    <span class="stamp g" style="font-size:10pt;">Working prototype</span>
+    <span class="stamp n">Problem statement 26108</span>
+  </div>
+  <svg style="position:absolute; top:24mm; left:16mm" width="60" height="60" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#171717"/><path d="M5 22c3-9 19-9 22 0" fill="none" stroke="#ff8a1f" stroke-width="3" stroke-linecap="round"/><path d="M5 22h22M10 22v-4.5M16 22v-6M22 22v-4.5" stroke="#cfe83a" stroke-width="2.2" stroke-linecap="round"/></svg>
+  <span class="sticker" style="align-self:flex-start; margin-bottom:16px;"><i></i> Product report · November 2026</span>
+  <h1>Spec<span class="hl">Setu</span></h1>
+  <p class="lede" style="font-size:16pt; margin-top:14px; max-width:150mm; font-weight:600;">The bridge from procurement specifications to Indian Standards.</p>
+  <p class="lede" style="max-width:150mm;">An AI recommendation engine that reads a product description, technical specification or tender in English or nine Indian scripts and returns the applicable Indian Standard, its latest amendment, the allied standards to cite with it, the BIS certification bidders must hold, and a tender clause ready to paste.</p>
+  <div class="grid3" style="margin-top:22px; max-width:170mm;">
+    <div class="card tl"><span class="pin"></span><div class="num">6/6</div><b>expected features met</b><p class="muted" style="margin:0; font-size:8.6pt;">each proven by automated tests</p></div>
+    <div class="card tr"><span class="pin b"></span><div class="num">138</div><b>automated tests passing</b><p class="muted" style="margin:0; font-size:8.6pt;">92 backend · 46 end-to-end in Chrome</p></div>
+    <div class="card tl"><span class="pin g"></span><div class="num">8</div><b>features added after benchmarking</b><p class="muted" style="margin:0; font-size:8.6pt;">against BIS, GeM, BIS Care, Accuris, ASTM</p></div>
+  </div>
+  <div style="margin-top:26px; font-size:9pt; color:var(--ink2);">
+    <b>Ministry of Consumer Affairs, Food &amp; Public Distribution</b> · Department of Consumer Affairs (DoCA)<br />
+    Category: Software · Theme: Smart Automation
+  </div>
+  <div class="foot"><span>SpecSetu · confidential prototype report</span><span>1</span></div>
+</section>
+
+<!-- 2 · PROBLEM -->
+<section class="page">
+  <span class="sticker"><i style="background:var(--red)"></i> The problem</span>
+  <h2 class="title">Right product,<br />wrong standard</h2>
+  <p class="lede">Government departments, PSEs and procurement agencies write technical specifications that must cite the correct Indian Standards. Finding them is hard, and mistakes surface late — at bid evaluation, inspection or in a dispute.</p>
+  <div class="grid2" style="margin-top:14px;">
+    <div class="card tl"><span class="pin"></span><h3>Why it goes wrong</h3>
+      <ul class="tick" style="font-size:9.4pt;">
+        <li>Thousands of published standards with overlapping scopes; search tools expect an IS number or exact keyword.</li>
+        <li>Standards are revised and amended; tenders keep citing superseded years.</li>
+        <li>A product standard is not enough: test methods, terminology, safety and installation codes must be cited too.</li>
+        <li>Mandatory certification (ISI under QCOs, CRS, Hallmarking) is easy to leave out.</li>
+        <li>Indents are written in many languages and everyday words ("saria", "geyser").</li>
+      </ul>
+    </div>
+    <div class="card tr"><span class="pin o"></span><h3>What it costs</h3>
+      <ul class="tick" style="font-size:9.4pt;">
+        <li>Ambiguous specs invite bidder queries and corrigenda.</li>
+        <li>Outdated references let lower-quality products qualify.</li>
+        <li>Missing certification clauses expose buyers to non-compliant supply.</li>
+        <li>Disputes at acceptance delay projects and payments.</li>
+        <li>Officers spend hours cross-checking catalogues by hand.</li>
+      </ul>
+    </div>
+  </div>
+  <h3 style="margin-top:18px;">The six expected features (from the problem statement)</h3>
+  <div class="grid3" style="font-size:8.8pt;">
+    <div class="bar" style="background:#fde4df; grid-template-columns:28px 1fr;"><span class="k">R1</span><span>Accept product descriptions, technical specifications or tender documents</span></div>
+    <div class="bar" style="background:#dce9f8; grid-template-columns:28px 1fr;"><span class="k">R2</span><span>Recommend standards by semantic understanding, not keywords</span></div>
+    <div class="bar" style="background:#f4efb4; grid-template-columns:28px 1fr;"><span class="k">R3</span><span>Identify allied standards: normative, test, terminology, safety, installation, related</span></div>
+    <div class="bar" style="background:#dcf4e1; grid-template-columns:28px 1fr;"><span class="k">R4</span><span>Highlight the latest version and amendments</span></div>
+    <div class="bar" style="background:#ffe6cf; grid-template-columns:28px 1fr;"><span class="k">R5</span><span>Suggest mandatory certification: BIS, CRS, Hallmarking</span></div>
+    <div class="bar" style="background:#e9e4f0; grid-template-columns:28px 1fr; background:#eef0f2;"><span class="k">R6</span><span>Multilingual input and natural-language queries</span></div>
+  </div>
+  <p class="hand" style="margin-top:14px;">…and integrate with the procurement portals officers already use.</p>
+  <div class="foot"><span>SpecSetu · The problem</span><span>2</span></div>
+</section>
+
+<!-- 3 · SOLUTION -->
+<section class="page">
+  <span class="sticker"><i style="background:var(--green)"></i> Our solution</span>
+  <h2 class="title">One line of text in,<br />a tender clause out</h2>
+  <div class="flow">
+    <div style="background:#fde4df;"><b>1 · Read</b>Detects the script, translates, pulls out ratings, grades, sizes</div>
+    <div style="background:#dce9f8;"><b>2 · Match</b>Concept graph + semantic + spelling-tolerant scoring</div>
+    <div style="background:#f4efb4;"><b>3 · Link</b>Allied tests, terminology, safety, installation, sampling</div>
+    <div style="background:#dcf4e1;"><b>4 · Certify</b>ISI / CRS / Hallmarking and the order behind it</div>
+    <div style="background:#ffe6cf;"><b>5 · Draft</b>Clause, key-parameter blanks, compliance sheet</div>
+    <div style="background:#eef0f2;"><b>6 · Audit</b>Scores a draft spec and lists fixes</div>
+  </div>
+  <figure class="polaroid" style="transform:rotate(-0.5deg);"><img class="crop" style="--h:76mm; --pos:center top;" src="img/results.png" alt="Top recommendation" /><figcaption>“1.1 kV XLPE armoured aluminium power cable 4 core 95 sq mm” → IS 7098 (Part 1) at 99%, with latest amendment, certification, reasons and scoring signals.</figcaption></figure>
+  <div class="grid2" style="margin-top:12px; align-items:start;">
+    <div style="display:grid; gap:12px;">
+      <figure class="polaroid" style="transform:rotate(0.7deg);"><img class="shot" src="img/certification.png" alt="Certification" /><figcaption>Mandatory ISI certification, stamped, with the QCO.</figcaption></figure>
+      <figure class="polaroid" style="transform:rotate(-0.6deg);"><img class="shot" src="img/checklist.png" alt="Key parameter checklist" /><figcaption>Key-parameter checklist: 6 of 7 stated, quantity flagged as missing.</figcaption></figure>
+    </div>
+    <figure class="polaroid" style="transform:rotate(0.8deg);"><img class="crop" style="--h:96mm; --pos:center top;" src="img/allied.png" alt="Allied standards map" /><figcaption>Allied standards map and grouped list.</figcaption></figure>
+  </div>
+  <div class="foot"><span>SpecSetu · Our solution</span><span>3</span></div>
+</section>
+
+<!-- 4 · MVP -->
+<section class="page">
+  <span class="sticker"><i style="background:var(--saffron)"></i> MVP</span>
+  <h2 class="title">What the MVP does today</h2>
+  <p class="lede" style="margin-bottom:4px;">The MVP is the full officer loop — <b>describe → recommend → link → certify → draft → audit</b> — working end to end, offline, behind a portal-ready API.</p>
+  <table class="tight" style="margin-top:6px; font-size:8.2pt;">
+    <tr><th style="width:31%">Capability</th><th>What the officer gets</th><th class="c" style="width:13%">Status</th></tr>
+    <tr><td><b>Describe in any way</b></td><td>Type, speak (5 Indian locales) or upload PDF / DOCX / TXT; natural-language questions work</td><td class="c"><span class="tag ok">Live</span></td></tr>
+    <tr><td><b>Semantic recommendation</b></td><td>Ranked standards with confidence, reasons and four scoring signals; low-confidence warning</td><td class="c"><span class="tag ok">Live</span></td></tr>
+    <tr><td><b>Tender line items</b></td><td>An uploaded tender / BOQ is split into items; each gets its standard and certification</td><td class="c"><span class="tag ok">Live</span></td></tr>
+    <tr><td><b>Allied standards</b></td><td>7 relation types + sampling plans, as a clickable map and list</td><td class="c"><span class="tag ok">Live</span></td></tr>
+    <tr><td><b>Versions &amp; amendments</b></td><td>Latest year, last amendment, superseded versions, version timeline</td><td class="c"><span class="tag ok">Live</span></td></tr>
+    <tr><td><b>Certification intelligence</b></td><td>ISI (QCO), CRS (MeitY/MNRE), Hallmarking + HUID, with what to ask bidders for</td><td class="c"><span class="tag ok">Live</span></td></tr>
+    <tr><td><b>Tender-ready outputs</b></td><td>Draft clause (copy/download), key-parameter blanks, bidder compliance sheet (CSV)</td><td class="c"><span class="tag ok">Live</span></td></tr>
+    <tr><td><b>Spec audit</b></td><td>Outdated / undated / unknown citations, missing standard, certification, tests, sampling; 0–100 score</td><td class="c"><span class="tag ok">Live</span></td></tr>
+    <tr><td><b>Multilingual</b></td><td>9 Indian scripts offline (Hindi, Marathi, Bengali, Gujarati, Punjabi, Odia, Tamil, Telugu, Kannada, Malayalam); Hindi interface</td><td class="c"><span class="tag ok">Live</span></td></tr>
+    <tr><td><b>Portal integration</b></td><td>REST API (10 endpoints), batch endpoint for BOQs, drop-in widget</td><td class="c"><span class="tag ok">Live</span></td></tr>
+    <tr><td><b>Revision watchlist</b></td><td>Watch standards; “What changed” feed of revisions and amendments</td><td class="c"><span class="tag ok">Live</span></td></tr>
+    <tr><td><b>Certificate check</b></td><td>Format check for CM/L, R-number, HUID + official BIS verification route</td><td class="c"><span class="tag ok">Live</span></td></tr>
+    <tr><td><b>Learning loop</b></td><td>Officers mark results right/wrong; votes stored as training data</td><td class="c"><span class="tag ok">Live</span></td></tr>
+    <tr><td><b>NVIDIA Nemotron layer</b></td><td>Any-language translation and re-ranking with reasons via NVIDIA NIM (~1 s); falls back offline</td><td class="c"><span class="tag ok">Live</span></td></tr>
+  </table>
+  <div class="grid2" style="margin-top:12px;">
+    <figure class="polaroid" style="transform:rotate(-0.7deg);"><img class="crop" style="--h:62mm; --pos:center top;" src="img/tender-items.png" alt="Tender line items" /><figcaption>An uploaded tender split into 5 line items, each matched.</figcaption></figure>
+    <figure class="polaroid" style="transform:rotate(0.7deg);"><img class="crop" style="--h:62mm; --pos:center top;" src="img/clause.png" alt="Draft clause" /><figcaption>Draft clause on lined notesheet, with compliance-sheet export.</figcaption></figure>
+  </div>
+  <div class="foot"><span>SpecSetu · MVP</span><span>4</span></div>
+</section>
+
+<!-- 5 · WHAT MAKES US STAND OUT -->
+<section class="page">
+  <span class="sticker"><i style="background:var(--lime)"></i> Why SpecSetu</span>
+  <h2 class="title">What makes us<br />stand out</h2>
+  <div class="grid2" style="gap:14px;">
+    <div class="card tl"><span class="pin"></span><h3>1 · Starts from the officer's words</h3><p>Existing portals search by IS number or exact keyword. SpecSetu starts from “geyser for hostel”, “saria Fe 500D” or a Hindi sentence and finds the standard by meaning.</p></div>
+    <div class="card tr"><span class="pin b"></span><h3>2 · The whole citation, not one number</h3><p>Every recommendation brings its allied standards — tests, terminology, safety, installation, sampling — so the spec is complete the first time.</p></div>
+    <div class="card tl"><span class="pin g"></span><h3>3 · Certification intelligence</h3><p>Says whether ISI, CRS or Hallmarking is mandatory, names the Quality Control Order, and tells the officer exactly what to ask bidders for.</p></div>
+    <div class="card tr"><span class="pin o"></span><h3>4 · Output is a tender, not a search result</h3><p>Draft clause, key-parameter blanks (GeM-style golden parameters) and a clause-by-clause bidder compliance sheet.</p></div>
+    <div class="card tl"><span class="pin"></span><h3>5 · Catches mistakes before publication</h3><p>Spec audit flags superseded years, undated references, missing standards, certification, test and sampling clauses — with fixes and a score.</p></div>
+    <div class="card tr"><span class="pin b"></span><h3>6 · Reads whole tenders</h3><p>Upload a NIT or BOQ; SpecSetu splits it into line items, skips boilerplate like EMD, and matches each item.</p></div>
+    <div class="card tl"><span class="pin g"></span><h3>7 · Bharat-first language support</h3><p>Nine Indian scripts offline, Indic digits, voice input in Indian locales, and a Hindi interface — no paid translation needed.</p></div>
+    <div class="card tr"><span class="pin o"></span><h3>8 · Zero-effort portal integration</h3><p>One script tag adds “Suggest Indian Standards” to any spec box on GeM, CPPP or a state portal. Plus a REST and batch API.</p></div>
+    <div class="card tl"><span class="pin"></span><h3>9 · Explainable and offline</h3><p>Every match shows its reasons and signals. The engine runs on a plain server with no paid AI; NVIDIA Nemotron is an optional upgrade with automatic fallback.</p></div>
+    <div class="card tr"><span class="pin b"></span><h3>10 · Gets better with use</h3><p>Officers mark recommendations right or wrong; each vote is a labelled example for tuning the ranking.</p></div>
+  </div>
+  <div class="foot"><span>SpecSetu · What makes us stand out</span><span>5</span></div>
+</section>
+
+<!-- 6 · COMPETITIVE COMPARISON -->
+<section class="page">
+  <span class="sticker"><i style="background:var(--blue)"></i> Benchmark</span>
+  <h2 class="title">How we compare with<br />existing platforms</h2>
+  <p style="font-size:9.2pt;">Compared from public information (Nov 2026). Each platform does its own job well; SpecSetu fills the gap at the moment a specification is <b>written</b>.</p>
+  <table class="tight">
+    <tr><th style="width:30%">Capability</th><th class="c">SpecSetu</th><th class="c">BIS Know Your Standard / e-BIS</th><th class="c">BIS Care app</th><th class="c">GeM</th><th class="c">CPPP</th><th class="c">Accuris Eng. Workbench</th><th class="c">ASTM Compass</th></tr>
+    <tr class="us"><td>Find a standard from a plain product description</td><td class="c y">●</td><td class="c p">◐</td><td class="c n">○</td><td class="c p">◐</td><td class="c n">○</td><td class="c y">●</td><td class="c p">◐</td></tr>
+    <tr><td>Indian Standards as the core catalogue</td><td class="c p">◐</td><td class="c y">●</td><td class="c p">◐</td><td class="c p">◐</td><td class="c n">○</td><td class="c p">◐</td><td class="c n">○</td></tr>
+    <tr><td>Latest version and amendments shown</td><td class="c y">●</td><td class="c y">●</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td><td class="c y">●</td><td class="c y">●</td></tr>
+    <tr class="us"><td>Allied standards grouped (tests, terminology, safety, installation)</td><td class="c y">●</td><td class="c p">◐</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td><td class="c p">◐</td><td class="c p">◐</td></tr>
+    <tr class="us"><td>Mandatory certification advice per product (ISI / CRS / Hallmark)</td><td class="c y">●</td><td class="c p">◐</td><td class="c p">◐</td><td class="c p">◐</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td></tr>
+    <tr><td>Verify licence / R-number / HUID</td><td class="c p">◐</td><td class="c n">○</td><td class="c y">●</td><td class="c y">●</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td></tr>
+    <tr><td>Key-parameter checklist for the spec</td><td class="c y">●</td><td class="c n">○</td><td class="c n">○</td><td class="c y">●</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td></tr>
+    <tr class="us"><td>Draft tender clause + bidder compliance sheet</td><td class="c y">●</td><td class="c n">○</td><td class="c n">○</td><td class="c p">◐</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td></tr>
+    <tr class="us"><td>Audit a draft spec for outdated / missing references</td><td class="c y">●</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td></tr>
+    <tr class="us"><td>Upload a tender and match each line item</td><td class="c y">●</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td></tr>
+    <tr><td>Revision watchlist / alerts</td><td class="c p">◐</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td><td class="c y">●</td><td class="c p">◐</td></tr>
+    <tr class="us"><td>Indian-language input (offline, 9 scripts) and voice</td><td class="c y">●</td><td class="c p">◐</td><td class="c p">◐</td><td class="c p">◐</td><td class="c n">○</td><td class="c n">○</td><td class="c n">○</td></tr>
+    <tr class="us"><td>Drop-in widget / API for procurement portals</td><td class="c y">●</td><td class="c n">○</td><td class="c n">○</td><td class="c p">◐</td><td class="c n">○</td><td class="c p">◐</td><td class="c p">◐</td></tr>
+    <tr><td>Free to use / no subscription</td><td class="c y">●</td><td class="c p">◐</td><td class="c y">●</td><td class="c y">●</td><td class="c y">●</td><td class="c n">○</td><td class="c n">○</td></tr>
+  </table>
+  <p class="legend">● yes &nbsp; ◐ partly &nbsp; ○ no / not found in public material. Highlighted rows are capabilities where SpecSetu is the only full ●. BIS e-BIS: search by IS number or keyword; free viewing of standards under compulsory certification. BIS Care: verifies CM/L licences, CRS R-numbers and HUIDs. GeM: category specifications with mandatory “golden parameters”; validates seller BIS licences against BIS data. Accuris: AI semantic search, research assistant, update alerts (paid, global catalogue). ASTM Compass Discover: semantic search over ASTM standards (licensed, beta).</p>
+  <div class="card tl" style="margin-top:8px; padding:9px 14px; background:#fffbe0;"><span class="pin o"></span>
+    <h3>Positioning</h3>
+    <p style="margin:0;">BIS stays the source of truth and BIS Care the place to verify a certificate. GeM and CPPP run the purchase. SpecSetu sits between them, inside the drafting step, and hands each of them a cleaner specification.</p>
+  </div>
+  <div class="foot"><span>SpecSetu · Competitive comparison</span><span>6</span></div>
+</section>
+
+<!-- 7 · GAP ANALYSIS -->
+<section class="page">
+  <span class="sticker"><i style="background:var(--pin)"></i> Gap analysis</span>
+  <h2 class="title">Gaps we found —<br />and closed</h2>
+  <p class="lede">Benchmarking showed eight things other platforms do that the first prototype did not. All eight are now built, tested and live.</p>
+  <table>
+    <tr><th style="width:4%">#</th><th style="width:27%">Gap</th><th style="width:20%">Seen in</th><th>What we built</th></tr>
+    <tr><td>1</td><td><b>Revision tracking</b></td><td>Accuris alerts</td><td>Watch any standard; “What changed” feed of revisions and amendments since a chosen year; watched items pinned first (<span class="mono">GET /api/updates</span>)</td></tr>
+    <tr><td>2</td><td><b>Key parameters of the spec</b></td><td>GeM golden parameters</td><td>Per-category checklist (cables, lighting, steel, IT, solar…) showing which parameters the description states; missing ones become blanks in the clause</td></tr>
+    <tr><td>3</td><td><b>Certificate checks</b></td><td>BIS Care, GeM validation</td><td>Format check for CM/L licence, CRS R-number and HUID with links to official verification (<span class="mono">GET /api/certificate/check</span>)</td></tr>
+    <tr><td>4</td><td><b>Link to the official standard</b></td><td>BIS Know Your Standard</td><td>“Open on BIS” on every standard</td></tr>
+    <tr><td>5</td><td><b>Learning from users</b></td><td>Commercial AI search</td><td>Right / wrong votes on each recommendation, stored as training data with a summary endpoint</td></tr>
+    <tr><td>6</td><td><b>Integration effort</b></td><td>GeM–BIS data link</td><td>Drop-in widget: one script tag adds standards suggestions and “Insert clause” to any portal spec box; batch API for BOQs</td></tr>
+    <tr><td>7</td><td><b>Bidder compliance statement</b></td><td>GeM / tender practice</td><td>One-click clause-by-clause compliance sheet (CSV, opens in Excel)</td></tr>
+    <tr><td>8</td><td><b>Hindi interface</b></td><td>BIS, GeM bilingual sites</td><td>EN / हिं toggle for the app interface; remembered per browser</td></tr>
+  </table>
+  <div class="grid2" style="margin-top:12px;">
+    <figure class="polaroid" style="transform:rotate(-0.7deg);"><img class="crop" style="--h:64mm; --pos:center bottom;" src="img/widget.png" alt="Portal widget" /><figcaption>Drop-in widget on a sample portal form: suggestions + Insert clause.</figcaption></figure>
+    <figure class="polaroid" style="transform:rotate(0.7deg);"><img class="crop" style="--h:64mm; --pos:center top;" src="img/hindi.png" alt="Hindi interface" /><figcaption>Hindi interface toggle on the search notesheet.</figcaption></figure>
+  </div>
+  <div class="foot"><span>SpecSetu · Gap analysis</span><span>7</span></div>
+</section>
+
+<!-- 8 · REQUIREMENT COVERAGE -->
+<section class="page">
+  <span class="sticker"><i style="background:var(--green)"></i> Compliance</span>
+  <h2 class="title">Every requirement,<br />proven by a test</h2>
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:24%">Requirement</th><th>How SpecSetu meets it</th><th style="width:19%">Proof (automated)</th></tr>
+    <tr><td>R1</td><td>Descriptions, specifications or tender documents</td><td>Text, voice, PDF / DOCX / TXT upload; tenders and DOCX tables split into line items; boilerplate skipped; batch API</td><td>backend <span class="mono">test_r1_*</span>; E2E R1 (4)</td></tr>
+    <tr><td>R2</td><td>Semantic, not keyword, recommendation</td><td>Concept graph + TF-IDF + LSA + character n-grams; colloquial words, typos and questions resolve; low-confidence flag</td><td><span class="mono">test_r2_*</span>, engine tests; E2E R2 (3)</td></tr>
+    <tr><td>R3</td><td>Allied standards of every kind</td><td>Normative, test, terminology, safety, installation, related product, sampling — grouped and mapped</td><td><span class="mono">test_r3_*</span>; E2E R3 (3)</td></tr>
+    <tr><td>R4</td><td>Latest version and amendments</td><td>Year, last amendment, superseded versions, timeline; audit flags outdated / undated citations; watchlist feed</td><td><span class="mono">test_r4_*</span>, audit tests; E2E R4</td></tr>
+    <tr><td>R5</td><td>Mandatory certification (BIS, CRS, Hallmarking)</td><td>Scheme, mandatory flag, notifying order, bidder guidance; written into the clause; certificate format check</td><td><span class="mono">test_r5_*</span> (3); E2E R5 (3)</td></tr>
+    <tr><td>R6</td><td>Multilingual and natural language</td><td>9 scripts offline with Indic digits, voice in 5 locales, Hindi UI; optional NVIDIA Nemotron for any language</td><td><span class="mono">test_r6_*</span> (10 scripts); E2E R6 (4)</td></tr>
+    <tr><td>+</td><td>Integrate with procurement portals</td><td>REST API, batch endpoint, drop-in widget, CORS, validation, rate limiting</td><td>API tests; E2E widget</td></tr>
+  </table>
+  <h3 style="margin-top:16px;">Sample tender, end to end</h3>
+  <p style="font-size:9.2pt;">The E2E suite uploads a five-item notice inviting tender and checks every item:</p>
+  <table style="font-size:8.4pt;">
+    <tr><th>Line item in the tender</th><th>Standard returned</th><th>Certification</th></tr>
+    <tr><td>PVC insulated copper house wiring cable 2.5 sq mm, 1100 V</td><td class="mono">IS 694:2010</td><td>ISI mandatory</td></tr>
+    <tr><td>LED street light luminaire 90W with driver</td><td class="mono">IS 10322 (Part 5/Sec 3):2012</td><td>CRS mandatory</td></tr>
+    <tr><td>TMT reinforcement bars Fe 500D, 12 mm</td><td class="mono">IS 1786:2008</td><td>ISI mandatory</td></tr>
+    <tr><td>OPC 53 grade cement</td><td class="mono">IS 269:2015</td><td>ISI mandatory</td></tr>
+    <tr><td>Packaged drinking water 20 litre jars</td><td class="mono">IS 14543:2016</td><td>ISI mandatory</td></tr>
+  </table>
+  <p class="legend">“Earnest money deposit” in the same tender is correctly ignored as boilerplate.</p>
+  <figure class="polaroid" style="margin-top:10px; transform:rotate(-0.5deg);"><img class="crop" style="--h:52mm; --pos:center top;" src="img/audit.png" alt="Spec audit" /><figcaption>Spec audit of the sample specification (cites IS 694:1990, no ISI clause, no sampling plan): 45/100, grade C, with every finding listed below it in the app.</figcaption></figure>
+  <div class="foot"><span>SpecSetu · Requirement coverage</span><span>8</span></div>
+</section>
+
+<!-- 9 · ARCHITECTURE & QUALITY -->
+<section class="page">
+  <span class="sticker"><i style="background:#7a7a7a"></i> Under the hood</span>
+  <h2 class="title">Architecture,<br />security and quality</h2>
+  <div class="grid2">
+    <div class="card tl"><span class="pin"></span><h3>Backend · FastAPI (Python)</h3>
+      <ul class="tick" style="font-size:9pt;">
+        <li>Repository over a structured knowledge base (versions, amendments, certification, relations)</li>
+        <li>Hybrid engine: concept graph 0.30 · TF-IDF 0.38 · LSA 0.17 · char n-grams 0.15</li>
+        <li>Language layer: script detection, Indic digits, glossaries</li>
+        <li>Extractor (PDF/DOCX/TXT), line-item splitter, parameter detector</li>
+        <li>Auditor, clause writer, checklist, certificates, feedback store</li>
+        <li>Optional NVIDIA Nemotron layer (NIM API) with automatic fallback</li>
+      </ul>
+    </div>
+    <div class="card tr"><span class="pin b"></span><h3>Frontend · React + TypeScript</h3>
+      <ul class="tick" style="font-size:9pt;">
+        <li>Recommend, Spec audit, Library, Portal API views</li>
+        <li>“Case file” design: notesheets, pinned cards, stamps, hand-drawn doodles</li>
+        <li>Motion layer with trailing googly-eye cursor; respects reduced-motion settings; print-safe</li>
+        <li>Works on phones (tested at Pixel 7 size)</li>
+        <li>Keyboard skip link, labelled controls, ARIA states</li>
+      </ul>
+    </div>
+    <div class="card tl"><span class="pin g"></span><h3>Security</h3>
+      <ul class="tick" style="font-size:9pt;">
+        <li>Input validation on every endpoint (length, file type, 5 MB cap)</li>
+        <li>Per-IP rate limiting on all POST endpoints</li>
+        <li>Environment-specific CORS origins; no secrets in code</li>
+        <li>Single error envelope; no stack traces leak to users</li>
+        <li>Widget builds DOM with text nodes only (no HTML injection)</li>
+      </ul>
+    </div>
+    <div class="card tr"><span class="pin o"></span><h3>Quality</h3>
+      <div style="display:flex; gap:18px; margin:4px 0 8px;">
+        <div><div class="num">92</div><span class="muted" style="font-size:8.6pt;">backend tests</span></div>
+        <div><div class="num">46</div><span class="muted" style="font-size:8.6pt;">E2E tests (Chrome)</span></div>
+      </div>
+      <ul class="tick" style="font-size:9pt;">
+        <li>One test per expected feature (R1–R6)</li>
+        <li>E2E covers upload, downloads, errors, mobile, motion, widget</li>
+        <li>Type-checked frontend build</li>
+      </ul>
+    </div>
+  </div>
+  <h3 style="margin-top:16px;">Portal API</h3>
+  <table style="font-size:8.2pt;">
+    <tr><th style="width:9%">Method</th><th style="width:30%">Path</th><th>Purpose</th></tr>
+    <tr><td>POST</td><td class="mono">/api/recommend</td><td>Description → standards, allied, certification, checklist, clause</td></tr>
+    <tr><td>POST</td><td class="mono">/api/recommend/upload</td><td>PDF / DOCX / TXT → line items, recommendations, audit</td></tr>
+    <tr><td>POST</td><td class="mono">/api/recommend/batch</td><td>Up to 25 BOQ items → standard and certification each</td></tr>
+    <tr><td>POST</td><td class="mono">/api/audit</td><td>Draft spec → findings, fixes, score</td></tr>
+    <tr><td>GET</td><td class="mono">/api/updates</td><td>Revisions and amendments since a year</td></tr>
+    <tr><td>GET</td><td class="mono">/api/certificate/check</td><td>CM/L, R-number, HUID format + verification route</td></tr>
+    <tr><td>POST</td><td class="mono">/api/feedback</td><td>Officer vote on a recommendation</td></tr>
+    <tr><td>GET</td><td class="mono">/api/standards · /{id}</td><td>Search and reference graph</td></tr>
+    <tr><td>GET</td><td class="mono">/widget.js</td><td>Drop-in portal widget</td></tr>
+  </table>
+  <div class="foot"><span>SpecSetu · Architecture and quality</span><span>9</span></div>
+</section>
+
+<!-- 10 · ROADMAP & IMPACT -->
+<section class="page">
+  <span class="sticker"><i style="background:var(--saffron)"></i> Next</span>
+  <h2 class="title">Roadmap and<br />impact we will measure</h2>
+  <div class="grid3">
+    <div class="card tl"><span class="pin"></span><h3>Phase 1 · Pilot (0–3 months)</h3>
+      <ul class="tick" style="font-size:8.8pt;"><li>Sync the full BIS catalogue, normative references and amendments</li><li>QCO list kept current from notifications</li><li>Pilot with one department's indents</li><li>Email / SMS alerts for watched standards</li></ul></div>
+    <div class="card tr"><span class="pin b"></span><h3>Phase 2 · Integrate (3–6 months)</h3>
+      <ul class="tick" style="font-size:8.8pt;"><li>Live licence / R-number / HUID lookup via an official BIS data link</li><li>Widget on GeM and state e-procurement spec forms</li><li>OCR for scanned tenders</li><li>Full Hindi and regional-language interface</li></ul></div>
+    <div class="card tl"><span class="pin g"></span><h3>Phase 3 · Scale (6–12 months)</h3>
+      <ul class="tick" style="font-size:8.8pt;"><li>Ranking tuned on officer feedback</li><li>Category mapping to GeM catalogue</li><li>Dashboards: outdated citations by department</li><li>Services and works contracts</li></ul></div>
+  </div>
+  <h3 style="margin-top:18px;">Impact metrics for the pilot</h3>
+  <table>
+    <tr><th>Metric</th><th>How we measure it</th></tr>
+    <tr><td>Time to draft the standards section of a spec</td><td>Officer time with and without SpecSetu on the same indents</td></tr>
+    <tr><td>Tenders citing superseded standard versions</td><td>Spec audit run on published tenders before and after rollout</td></tr>
+    <tr><td>Tenders missing a mandatory certification clause</td><td>Audit findings of type “certification”</td></tr>
+    <tr><td>Bidder queries and corrigenda about specifications</td><td>Pre-bid query logs of pilot departments</td></tr>
+    <tr><td>Recommendation accuracy</td><td>Share of officer votes marked “right”; top-1 match on a labelled set</td></tr>
+  </table>
+  <div class="card tr" style="margin-top:14px; background:#fffbe0;"><span class="pin o"></span>
+    <h3>Honest limits of this prototype</h3>
+    <ul class="tick" style="font-size:9pt;">
+      <li>The knowledge base is a curated sample of 82 standards; versions, amendments and QCO coverage are indicative and must be checked against the BIS Standards portal.</li>
+      <li>Certificate checks validate format only; official verification stays with BIS Care / Manak Online.</li>
+      <li>Offline glossaries cover common procurement words; rare words need the Nemotron layer.</li>
+      <li>Scanned PDFs need OCR (Phase 2). Watchlist alerts are in-app for now.</li>
+    </ul>
+  </div>
+  <div class="foot"><span>SpecSetu · Roadmap and impact</span><span>10</span></div>
+</section>
+
+<!-- 11 · SOURCES -->
+<section class="page">
+  <span class="sticker"><i></i> References</span>
+  <h2 class="title">Sources for the<br />benchmark</h2>
+  <p style="font-size:9.2pt;">Platform capabilities were taken from these public pages in November 2026. Where public material did not confirm a capability, the comparison marks it “○ not found”.</p>
+  <ul style="font-size:8.8pt; line-height:1.7; padding-left:16px;">
+    <li>BIS — Know Your Standard: bis.gov.in/know-your-standard</li>
+    <li>BIS — e-BIS how to use: services.bis.gov.in/php/BIS_2.0/eBIS/how-to-use</li>
+    <li>BIS — View Indian Standards under compulsory certification free of cost (PDF): bis.gov.in/wp-content/uploads/2019/02/</li>
+    <li>BIS — BIS Care app: services.bis.gov.in/php/BIS_2.0/BISBlog/bis-care-app/ and apps.apple.com/in/app/bis-care-app/id6443724891</li>
+    <li>GeM — User FAQs (golden parameters, filters): gem.gov.in/userFaqs</li>
+    <li>GeM — Vendor Validation Policy v3 (BIS licence validation, weekly BIS data): assets-bg.gem.gov.in/resources/upload/shared_doc/</li>
+    <li>KNN India — “GeM platform to validate all BIS licences of sellers”: knnindia.co.in</li>
+    <li>CPPP — Central Public Procurement Portal: eprocure.gov.in/cppp</li>
+    <li>S&amp;P Global — Accuris Engineering Workbench: spglobal.com/engineering/en/products/standards-codes-specs.html</li>
+    <li>ASTM — Compass and Compass Discover (beta): astm.org/products-services/enterprise-solutions/astm-compass.html; astm.org/news/press-releases/compass-discover-beta</li>
+  </ul>
+  <div class="card tl" style="margin-top:18px;"><span class="pin"></span>
+    <h3>Run it yourself</h3>
+    <p class="mono" style="font-size:8.6pt; margin:0;">cd backend &amp;&amp; pip install -r requirements.txt &amp;&amp; python -m uvicorn app.main:app --port 8000<br />cd frontend &amp;&amp; npm install &amp;&amp; npm run dev &nbsp;→ http://localhost:5173<br />Tests: cd backend &amp;&amp; python -m pytest · cd frontend &amp;&amp; npx playwright test</p>
+  </div>
+  <figure class="polaroid" style="margin-top:16px; transform:rotate(-0.5deg);"><img class="crop" style="--h:78mm; --pos:center 30%;" src="img/hero.png" alt="SpecSetu home" /><figcaption>SpecSetu home screen.</figcaption></figure>
+  <div class="foot"><span>SpecSetu · Sources</span><span>11</span></div>
+</section>
+
+</body>
+</html>

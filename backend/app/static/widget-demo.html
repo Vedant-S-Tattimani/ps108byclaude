@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SpecSetu widget demo</title>
+  <style>
+    body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #eef2f6; color: #1d2733; }
+    header { background: #1d3557; color: #fff; padding: 14px 24px; font-weight: 700; }
+    main { max-width: 760px; margin: 28px auto; background: #fff; border-radius: 10px; padding: 24px; box-shadow: 0 6px 20px rgba(0,0,0,.08); }
+    label { display: block; font-weight: 600; margin: 16px 0 6px; }
+    input, textarea { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #c5ced8; border-radius: 6px; font: inherit; }
+    textarea { min-height: 110px; }
+    .note { font-size: 13px; color: #5b6878; }
+  </style>
+  <script src="/widget.js" defer></script>
+</head>
+<body>
+  <header>Sample e-procurement portal · Create bid · Item specification</header>
+  <main>
+    <p class="note">This page stands in for a portal's own form. The only change the portal makes is one script tag and a <code>data-specsetu</code> attribute on the textarea.</p>
+    <label for="item">Item name</label>
+    <input id="item" value="LED street light luminaire" />
+    <label for="spec">Technical specification</label>
+    <textarea id="spec" data-specsetu>LED street light luminaire 90W IP66 for municipal roads, 120 nos</textarea>
+  </main>
+</body>
+</html>

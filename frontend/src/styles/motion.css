@@ -1,0 +1,70 @@
+/* ---------- motion layer ---------- */
+
+/* Entrance on load: hero words rise one by one */
+.rise-word { display: inline-block; opacity: 0; transform: translateY(0.5em) rotate(4deg); animation: rise-word 0.9s var(--spring) forwards; }
+@keyframes rise-word { to { opacity: 1; transform: none; } }
+
+/* Scroll reveal: a pinned card dropping onto the board. Hidden only once JS has armed it. */
+.reveal-armed [data-reveal]:not(.in) { opacity: 0; transform: translateY(40px) rotate(var(--r-from, -5deg)) scale(0.96); }
+.reveal-armed [data-reveal].in { animation: pin-drop 0.9s var(--spring) both; animation-delay: var(--d, 0ms); }
+@keyframes pin-drop {
+  0% { opacity: 0; transform: translateY(40px) rotate(var(--r-from, -5deg)) scale(0.96); }
+  60% { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0) rotate(var(--r-to, var(--tilt, 0deg))) scale(1); }
+}
+.reveal-armed [data-reveal].in.settled { animation: none; opacity: 1; }
+.reveal-armed [data-reveal="fade"]:not(.in) { transform: translateY(16px); }
+.reveal-armed [data-reveal="fade"].in { animation: fade-up 0.8s var(--ease) both; animation-delay: var(--d, 0ms); }
+@keyframes fade-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.reveal-armed [data-reveal="sticker"]:not(.in) { transform: scale(0.4) rotate(-30deg); }
+.reveal-armed [data-reveal="sticker"].in { animation: slap 0.7s var(--spring) both; animation-delay: var(--d, 0ms); }
+@keyframes slap { from { opacity: 0; transform: scale(0.4) rotate(-30deg); } to { opacity: 1; transform: rotate(-6deg) scale(1); } }
+
+/* Rubber stamp thump */
+.stamp.thump { animation: thump 0.55s var(--spring) both; animation-delay: var(--d, 0.35s); }
+@keyframes thump { 0% { opacity: 0; transform: scale(2.4) rotate(-20deg); } 70% { opacity: 0.9; } 100% { opacity: 0.88; transform: scale(1) rotate(-8deg); } }
+
+/* Doodle idle loops (each 2.5-6 s) */
+.bob { animation: bob 4.2s ease-in-out infinite; }
+.bob-2 { animation: bob 5.4s ease-in-out infinite reverse; }
+.wiggle { animation: wiggle 2.8s ease-in-out infinite; transform-origin: 50% 80%; }
+.spin-slow { animation: spin 18s linear infinite; }
+.sway { animation: sway 3.6s ease-in-out infinite; transform-origin: top center; }
+.draw-path path { stroke-dasharray: 600; stroke-dashoffset: 600; animation: draw 2.4s var(--ease) forwards 0.6s; }
+@keyframes bob { 50% { transform: translateY(-12px); } }
+@keyframes wiggle { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(8deg); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(5deg); } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* Doodles shift slightly with the pointer (parallax set by JS on --mx/--my) */
+.doodle { transform: translate(calc(var(--mx, 0) * var(--depth, 10px)), calc(var(--my, 0) * var(--depth, 10px))); transition: transform 0.6s var(--ease); }
+
+/* Results stagger when a new search lands */
+.fade-in { animation: fade-up 0.6s var(--ease) both; }
+
+/* ---------- cursor eyes: googly eyes that trail the pointer ---------- */
+.cursor-eyes { position: fixed; left: 0; top: 0; z-index: 80; pointer-events: none; will-change: transform; }
+.ce-inner { display: flex; gap: 3px; transform: translate(-50%, -50%) scale(0.2); opacity: 0; transform-origin: 50% 70%;
+  transition: opacity 0.45s var(--ease), transform 0.5s var(--spring); filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.22)); }
+.cursor-eyes.is-awake .ce-inner { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.cursor-eyes.is-awake.is-curious .ce-inner { transform: translate(-50%, -50%) scale(1.22); }
+.ce-eye { width: 22px; height: 26px; border-radius: 50%; background: #fff; display: grid; place-items: center; box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.08), 0 0 0 1.5px rgba(23, 23, 23, 0.85); transition: transform 0.12s ease-out; }
+.ce-right { margin-top: -3px; }
+.ce-pupil { width: 10px; height: 11px; border-radius: 50%; background: var(--ink); position: relative; transition: transform 0.08s linear, width 0.25s var(--spring), height 0.25s var(--spring); }
+.ce-pupil::after { content: ""; position: absolute; top: 2px; left: 2px; width: 3px; height: 3px; border-radius: 50%; background: #fff; opacity: 0.9; }
+.cursor-eyes.is-curious .ce-pupil { width: 12px; height: 13px; }
+.cursor-eyes.is-blinking .ce-eye { transform: scaleY(0.12); }
+@media print { .cursor-eyes { display: none !important; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; animation-delay: 0ms !important; transition-duration: 0.01ms !important; }
+  .rise-word, .reveal-armed [data-reveal] { opacity: 1 !important; transform: none !important; }
+  .marquee span { animation: none !important; }
+  .cursor-eyes { display: none !important; }
+}
+
+@media print {
+  [data-reveal], .rise-word { opacity: 1 !important; transform: none !important; animation: none !important; }
+  .dock, .topbar, .doodles, .marquee { display: none !important; }
+}

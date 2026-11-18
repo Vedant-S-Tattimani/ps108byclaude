@@ -1,0 +1,10 @@
+node_modules/
+frontend/dist/
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+.env
+frontend/e2e-report/
+frontend/test-results/
+backend/app/data/runtime/

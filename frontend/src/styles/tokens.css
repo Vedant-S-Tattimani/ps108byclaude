@@ -1,0 +1,47 @@
+/* SpecSetu "case file" design system: graph-paper notesheets, pinned cards, rubber stamps. */
+:root {
+  --paper: #f4f1ea;
+  --paper-2: #ebe6db;
+  --card: #ffffff;
+  --grid: #cfdfec;
+  --ink: #171717;
+  --ink-2: #3b3b3b;
+  --muted: #6b6b6b;
+  --line: #e2ddd2;
+  --pin: #e5383b;
+  --pin-dark: #a3191c;
+  --saffron: #ff8a1f;
+  --saffron-soft: #ffe6cf;
+  --lime: #cfe83a;
+  --sky: #8fc0ee;
+  --navy: #12355b;
+  --stamp-green: #1c7c4a;
+  --stamp-red: #c2262b;
+  --bar-pink: #fde4df;
+  --bar-blue: #dce9f8;
+  --bar-yellow: #f4efb4;
+  --bar-mint: #dcf4e1;
+  --bar-peach: #ffe6cf;
+  --ok: #1c7c4a;
+  --ok-soft: #dcf4e1;
+  --warn: #a35d00;
+  --warn-soft: #fbefd2;
+  --bad: #c2262b;
+  --bad-soft: #fde4df;
+  --info: #1d5fa8;
+  --info-soft: #dce9f8;
+  --stack-shadow: 10px 10px 0 -1px var(--paper-2), 10px 10px 0 0 rgba(0, 0, 0, 0.06);
+  --shadow: 0 1px 1px rgba(0, 0, 0, 0.04), 0 10px 26px -12px rgba(0, 0, 0, 0.22);
+  --shadow-lift: 0 2px 3px rgba(0, 0, 0, 0.06), 0 26px 44px -18px rgba(0, 0, 0, 0.32);
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --font-display: "Archivo", "Noto Sans Devanagari", system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", "Noto Sans Devanagari", system-ui, sans-serif;
+  --font-hand: "Caveat", cursive;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --wrap: 1180px;
+  color-scheme: light;
+}
