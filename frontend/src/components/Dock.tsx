@@ -1,13 +1,15 @@
 import { useRef } from "react";
-import { ArrowUp, BookOpen, FileSearch, Sparkles } from "lucide-react";
+import type { ComponentType } from "react";
+import { AuditIcon, FindIcon, LibraryIcon, TopIcon } from "./art/DockIcons";
 import { useT } from "../i18n";
 
 export type View = "recommend" | "audit" | "library" | "api";
 
-const ITEMS: { id: View; label: string; icon: typeof Sparkles; bg: string }[] = [
-  { id: "recommend", label: "Find standards", icon: Sparkles, bg: "linear-gradient(160deg,#ffb35c,#ff7a1a)" },
-  { id: "audit", label: "Spec audit", icon: FileSearch, bg: "linear-gradient(160deg,#ff8b8b,#e5383b)" },
-  { id: "library", label: "Standards library", icon: BookOpen, bg: "linear-gradient(160deg,#7fb6f2,#2f6fca)" },
+/* Each tile is a soft tinted glass square; the illustration carries the colour. */
+const ITEMS: { id: View; label: string; icon: ComponentType<{ size?: number }>; bg: string }[] = [
+  { id: "recommend", label: "Find standards", icon: FindIcon, bg: "linear-gradient(160deg,#fff7ec 0%,#ffe2c2 100%)" },
+  { id: "audit", label: "Spec audit", icon: AuditIcon, bg: "linear-gradient(160deg,#fff4f2 0%,#ffd9d3 100%)" },
+  { id: "library", label: "Standards library", icon: LibraryIcon, bg: "linear-gradient(160deg,#f2f8ff 0%,#d5e7fb 100%)" },
 ];
 
 type Props = {
@@ -45,7 +47,7 @@ export function Dock({ view, resultCount, onNavigate }: Props) {
       {ITEMS.map(({ id, label, icon: Icon, bg }) => (
         <button key={id} type="button" className="dock-item" aria-label={t(label)} aria-current={view === id ? "page" : undefined} onClick={() => onNavigate(id)}>
           <span className="dock-tile" style={{ background: bg }}>
-            <Icon size={24} strokeWidth={2.2} aria-hidden />
+            <Icon size={36} />
           </span>
           {id === "recommend" && resultCount > 0 && <span className="dock-badge" key={resultCount}>{resultCount}</span>}
           <span className="dock-label">{t(label)}</span>
@@ -53,8 +55,8 @@ export function Dock({ view, resultCount, onNavigate }: Props) {
       ))}
       <span className="dock-sep" aria-hidden />
       <button type="button" className="dock-item" aria-label={t("Back to top")} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-        <span className="dock-tile" style={{ background: "linear-gradient(160deg,#4a4a4a,#171717)" }}>
-          <ArrowUp size={22} aria-hidden />
+        <span className="dock-tile" style={{ background: "linear-gradient(160deg,#3a3a3a,#141414)" }}>
+          <TopIcon size={34} />
         </span>
         <span className="dock-label">{t("Back to top")}</span>
       </button>
